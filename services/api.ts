@@ -22,3 +22,17 @@ export const removeIdea = async (idea: Idea) => {
         method: 'DELETE'
     })
 }
+
+export const searchIdeas = async (query: string) => {
+    return await $fetch(`${baseURL}/generate/search`, {
+        method: 'POST',
+        body: { query: query }
+    })
+}
+
+export const advancedSearchIdeas = async (query: string) => {
+    return await $fetch(`${baseURL}/generate/advancedSearch`, {
+        method: 'POST',
+        body: { query: query }
+    })
+}
