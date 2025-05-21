@@ -49,6 +49,11 @@ $componentName: 'a-button';
     }
     &--secondary {
         background: var(--secondary);
+        &:hover,
+        &:focus {
+            box-shadow: inset 0 -4px 0 0 var(--secondary-light);
+            outline: none;
+        }
     }
     &--accent {
         background: var(--accent);
