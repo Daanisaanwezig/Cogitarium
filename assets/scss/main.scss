@@ -1,0 +1,25 @@
+:root {
+    --primary: #FF6F61;
+    --primary-light: hsl(5, 100%, 79%);
+    --secondary: #6B5B95;
+    --accent: #00B295;
+    --text: #1C1C1C;
+    --text-light: #4A4A4A;
+    --text-disabled: #A0A0A0;
+    --background: #F7F7F7;
+    --surface: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: var(--background);
+    font-family: 'Roboto';
+}
+
+.container {
+    margin: 0 16px;
+}
