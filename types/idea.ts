@@ -1,7 +1,9 @@
 type Idea = {
-  id?: number
+  id: number
   title: string
-  description: string
+  description: Text
+  tags: string[]
+  similarity?: string
 }
 
 export type { Idea }
