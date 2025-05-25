@@ -7,11 +7,24 @@ defineProps<{
     required?: boolean,
     placeholder?: string,
     rows?: number,
-    name: string
+    name: string,
+    modelValue: string
 }>()
+const emit = defineEmits(['update:modelValue'])
+
+function onInput(event: Event) {
+    const target = event.target as HTMLInputElement
+    emit('update:modelValue', target.value)
+}
 </script>
 <template>
-    <textarea :placeholder="placeholder" :required="required" :class="componentName" :rows="rows" :name="name"></textarea>
+    <textarea   :placeholder="placeholder"
+                :required="required"
+                :class="componentName"
+                :rows="rows"
+                :name="name"
+                :value="modelValue"
+                @input="onInput"></textarea>
 </template>
 
 <style lang="scss">

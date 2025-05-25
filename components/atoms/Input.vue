@@ -6,11 +6,24 @@ const BEM = useBEM(componentName)
 defineProps<{
     required?: boolean,
     placeholder?: string,
-    name: string
+    name: string,
+    modelValue: string
 }>()
+const emit = defineEmits(['update:modelValue'])
+
+function onInput(event: Event) {
+    const target = event.target as HTMLInputElement
+    emit('update:modelValue', target.value)
+}
 </script>
 <template>
-    <input type="text" :placeholder="placeholder" :required="required" :class="componentName" :name="name">
+    <input  type="text"
+            :placeholder="placeholder"
+            :required="required"
+            :class="componentName"
+            :name="name"
+            :value="modelValue"
+            @input="onInput">
 </template>
 
 <style lang="scss">
