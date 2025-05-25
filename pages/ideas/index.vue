@@ -9,6 +9,7 @@ import IdeaItem from '~/components/molecules/IdeaItem.vue'
 import { buttonSize, buttonColor } from '~/types/button'
 
 import { advancedSearchIdeas, getIdeas, searchIdeas } from '~/services/api'
+import type { Idea } from '~/types/idea'
 
 const router = useRouter()
 
@@ -37,8 +38,9 @@ async function search() {
     }
 
     if (isAdvanced.value) {
-        const results = await advancedSearchIdeas(searchInput.value)
-        ideas.value = results
+        const results: Idea[] = await advancedSearchIdeas(searchInput.value)
+        const sorted = sortIdeasWithCreativity(results, temperature.value)
+        ideas.value = sorted
     } else {
         const results = await searchIdeas(searchInput.value)
         ideas.value = results
@@ -50,6 +52,19 @@ async function search() {
 const visibleIdeas = computed(() => {
   return searched.value ? ideas.value.slice(0, 5) : ideas.value
 })
+
+
+function sortIdeasWithCreativity(sortIdeas: Idea[], creativity: number) {
+    const sorted = sortIdeas.map(idea => {
+        if (! idea.similarity) idea.similarity = "0"
+        const sim = parseFloat(idea.similarity) / 100
+        const random = Math.random()
+        const score = (1 - creativity) * sim + creativity * random
+        return { ...idea, score }
+    }).sort((a, b) => b.score - a.score)
+
+    ideas.value = sorted
+}
 </script>
 <template>
     <div class="container" :class="componentName">
@@ -111,6 +126,11 @@ const visibleIdeas = computed(() => {
                         <template #description>{{ idea.description }}</template>
                     </IdeaItem>
                 </template>
+                <button @click="sortIdeasWithCreativity(ideas, temperature)" :class="BEM.childClass('shuffle')" v-if="searched">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M403.8 34.4c12-5 25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6l0-32-32 0c-10.1 0-19.6 4.7-25.6 12.8L284 229.3 244 176l31.2-41.6C293.3 110.2 321.8 96 352 96l32 0 0-32c0-12.9 7.8-24.6 19.8-29.6zM164 282.7L204 336l-31.2 41.6C154.7 401.8 126.2 416 96 416l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c10.1 0 19.6-4.7 25.6-12.8L164 282.7zm274.6 188c-9.2 9.2-22.9 11.9-34.9 6.9s-19.8-16.6-19.8-29.6l0-32-32 0c-30.2 0-58.7-14.2-76.8-38.4L121.6 172.8c-6-8.1-15.5-12.8-25.6-12.8l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c30.2 0 58.7 14.2 76.8 38.4L326.4 339.2c6 8.1 15.5 12.8 25.6 12.8l32 0 0-32c0-12.9 7.8-24.6 19.8-29.6s25.7-2.2 34.9 6.9l64 64c6 6 9.4 14.1 9.4 22.6s-3.4 16.6-9.4 22.6l-64 64z"/>
+                    </svg>
+                </button>
                 <button @click="navigate()" :class="BEM.childClass('new-idea')">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                         <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/>
@@ -219,9 +239,19 @@ $componentName: 'p-ideas-index';
         }
     }
 
+    &__shuffle {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        background: var(--secondary);
+    }
     &__new-idea {
         position: fixed;
         right: 0;
+        background: var(--primary);
+    }
+    &__shuffle,
+    &__new-idea {
         bottom: 0;
         width: 2.5rem;
         height: 2.5rem;
@@ -231,11 +261,10 @@ $componentName: 'p-ideas-index';
         border-radius: 50%;
         border: none;
         margin: 1rem;
-        background: var(--primary);
         svg {
             fill: var(--surface);
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1.25rem;
+            height: 1.25rem;
         }
     }
 }
