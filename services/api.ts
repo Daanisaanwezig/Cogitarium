@@ -23,14 +23,14 @@ export const removeIdea = async (idea: Idea) => {
     })
 }
 
-export const searchIdeas = async (query: string) => {
+export const searchIdeas = async (query: string): Promise<Idea[]> => {
     return await $fetch(`${baseURL}/generate/search`, {
         method: 'POST',
         body: { query: query }
     })
 }
 
-export const advancedSearchIdeas = async (query: string) => {
+export const advancedSearchIdeas = async (query: string): Promise<Idea[]> => {
     return await $fetch(`${baseURL}/generate/advancedSearch`, {
         method: 'POST',
         body: { query: query }
