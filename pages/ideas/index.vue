@@ -30,8 +30,6 @@ function navigate() {
 async function search() {
     if (searching.value) return
     searching.value = true
-
-    console.log(searchInput.value);
     
     if (!searchInput.value) {
         return searching.value = false
@@ -39,7 +37,6 @@ async function search() {
 
     if (isAdvanced.value) {
         const results = await advancedSearchIdeas(searchInput.value)
-        console.log(results);
         ideas.value = results
     } else {
         const results = await searchIdeas(searchInput.value)
@@ -109,7 +106,11 @@ async function search() {
                         <template #description>{{ idea.description }}</template>
                     </IdeaItem>
                 </template>
-                <Button :color="buttonColor.Primary" :size="buttonSize.Large" @click="navigate()">Nieuw idee</Button>
+                <button @click="navigate()" :class="BEM.childClass('new-idea')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                        <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"/>
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
@@ -211,6 +212,26 @@ $componentName: 'p-ideas-index';
         svg {
             width: 2rem;
             margin-right: 0.5rem;
+        }
+    }
+
+    &__new-idea {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        border: none;
+        margin: 1rem;
+        background: var(--primary);
+        svg {
+            fill: var(--surface);
+            width: 1.5rem;
+            height: 1.5rem;
         }
     }
 }
