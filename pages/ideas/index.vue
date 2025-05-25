@@ -12,7 +12,7 @@ import { advancedSearchIdeas, getIdeas, searchIdeas } from '~/services/api'
 
 const router = useRouter()
 
-const searching = ref(false)
+const searching = ref(false);
 const ideas = ref()
 const isAdvanced = ref(false);
 const searchInput = ref('');
@@ -74,23 +74,41 @@ async function search() {
                     <div :class="BEM.childClass('advanced-search')" v-else>
                         <Textarea v-model="searchInput" :required="false" :placeholder="'Waar ben je naar op zoek?'" :name="'advanced-textarea'" :rows="5"></Textarea>
                         <div class="temp-slider">
-                            <label for="temperature">Temperature: {{ temperature }}</label>
+                            <label for="temperature">Creativiteit: {{ temperature }}</label>
                             <input type="range" id="temperature" v-model="temperature" min="0" max="100" step="1" />
                         </div>
-                        <Button :color="buttonColor.Secondary" :size="buttonSize.Large" @click="search">
-                            Zoeken
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
-                            </svg>
-                        </Button>
+                        <div :class="BEM.childClass('advanced-search-buttons')">
+                            <Button :color="buttonColor.Secondary" :size="buttonSize.Large" @click="search">
+                                Zoeken
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/>
+                                </svg>
+                            </Button>
+                            <Button :color="buttonColor.Secondary" :size="buttonSize.Large" @click="search">
+                                Genereren
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                    <path d="M234.7 42.7L197 56.8c-3 1.1-5 4-5 7.2s2 6.1 5 7.2l37.7 14.1L248.8 123c1.1 3 4 5 7.2 5s6.1-2 7.2-5l14.1-37.7L315 71.2c3-1.1 5-4 5-7.2s-2-6.1-5-7.2L277.3 42.7 263.2 5c-1.1-3-4-5-7.2-5s-6.1 2-7.2 5L234.7 42.7zM46.1 395.4c-18.7 18.7-18.7 49.1 0 67.9l34.6 34.6c18.7 18.7 49.1 18.7 67.9 0L529.9 116.5c18.7-18.7 18.7-49.1 0-67.9L495.3 14.1c-18.7-18.7-49.1-18.7-67.9 0L46.1 395.4zM484.6 82.6l-105 105-23.3-23.3 105-105 23.3 23.3zM7.5 117.2C3 118.9 0 123.2 0 128s3 9.1 7.5 10.8L64 160l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L128 160l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L128 96 106.8 39.5C105.1 35 100.8 32 96 32s-9.1 3-10.8 7.5L64 96 7.5 117.2zm352 256c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L416 416l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L480 416l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L480 352l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L416 352l-56.5 21.2z"/>
+                                </svg>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
             <div :class="BEM.childClass('results')">
-                <IdeaItem v-for="idea in ideas" :key="idea.id" :idea="idea">
-                    <template #title> {{ idea.title }}</template>
-                    <template #description>{{ idea.description }}</template>
-                </IdeaItem>
+                <template v-if="searching">
+                    <div :class="BEM.childClass('searching')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                            <path d="M234.7 42.7L197 56.8c-3 1.1-5 4-5 7.2s2 6.1 5 7.2l37.7 14.1L248.8 123c1.1 3 4 5 7.2 5s6.1-2 7.2-5l14.1-37.7L315 71.2c3-1.1 5-4 5-7.2s-2-6.1-5-7.2L277.3 42.7 263.2 5c-1.1-3-4-5-7.2-5s-6.1 2-7.2 5L234.7 42.7zM46.1 395.4c-18.7 18.7-18.7 49.1 0 67.9l34.6 34.6c18.7 18.7 49.1 18.7 67.9 0L529.9 116.5c18.7-18.7 18.7-49.1 0-67.9L495.3 14.1c-18.7-18.7-49.1-18.7-67.9 0L46.1 395.4zM484.6 82.6l-105 105-23.3-23.3 105-105 23.3 23.3zM7.5 117.2C3 118.9 0 123.2 0 128s3 9.1 7.5 10.8L64 160l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L128 160l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L128 96 106.8 39.5C105.1 35 100.8 32 96 32s-9.1 3-10.8 7.5L64 96 7.5 117.2zm352 256c-4.5 1.7-7.5 6-7.5 10.8s3 9.1 7.5 10.8L416 416l21.2 56.5c1.7 4.5 6 7.5 10.8 7.5s9.1-3 10.8-7.5L480 416l56.5-21.2c4.5-1.7 7.5-6 7.5-10.8s-3-9.1-7.5-10.8L480 352l-21.2-56.5c-1.7-4.5-6-7.5-10.8-7.5s-9.1 3-10.8 7.5L416 352l-56.5 21.2z"/>
+                        </svg>
+                        <p>Ideeën aan het zoeken</p>
+                    </div>
+                </template>
+                <template v-else>
+                    <IdeaItem v-for="(idea) in ideas.slice(0, 5)" :key="idea.id" :idea="idea">
+                        <template #title> {{ idea.title }}</template>
+                        <template #description>{{ idea.description }}</template>
+                    </IdeaItem>
+                </template>
                 <Button :color="buttonColor.Primary" :size="buttonSize.Large" @click="navigate()">Nieuw idee</Button>
             </div>
         </div>
@@ -174,12 +192,26 @@ $componentName: 'p-ideas-index';
             }
         }
     }
+    &__advanced-search-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
     
     &__results {
         display: grid;
         gap: 1rem;
         background-color: var(--background);
         padding-top: 1rem;
+    }
+    &__searching {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+        svg {
+            width: 2rem;
+            margin-right: 0.5rem;
+        }
     }
 }
 </style>
