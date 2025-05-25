@@ -12,11 +12,12 @@ import { advancedSearchIdeas, getIdeas, searchIdeas } from '~/services/api'
 
 const router = useRouter()
 
-const searching = ref(false);
+const searching = ref(false)
+const searched = ref(false)
 const ideas = ref()
-const isAdvanced = ref(false);
-const searchInput = ref('');
-const temperature = ref(50);
+const isAdvanced = ref(false)
+const searchInput = ref('')
+const temperature = ref(50)
 
 
 const componentName = 'p-ideas-index'
@@ -42,9 +43,13 @@ async function search() {
         const results = await searchIdeas(searchInput.value)
         ideas.value = results
     }
-    
+    searched.value = true
     searching.value = false
 }
+
+const visibleIdeas = computed(() => {
+  return searched.value ? ideas.value.slice(0, 5) : ideas.value
+})
 </script>
 <template>
     <div class="container" :class="componentName">
@@ -101,7 +106,7 @@ async function search() {
                     </div>
                 </template>
                 <template v-else>
-                    <IdeaItem v-for="(idea) in ideas.slice(0, 5)" :key="idea.id" :idea="idea">
+                    <IdeaItem v-for="idea in visibleIdeas" :key="idea.id" :idea="idea">
                         <template #title> {{ idea.title }}</template>
                         <template #description>{{ idea.description }}</template>
                     </IdeaItem>
@@ -130,7 +135,6 @@ $componentName: 'p-ideas-index';
         }
         button {
             margin: 0;
-            // margin-left: 1rem;
             padding: 6px;
             svg {
                 width: 16px;
