@@ -1,48 +1,33 @@
 <script setup lang="ts">
-import { useBEM } from '~/composable/useBEM'
+import { useBEM } from '~/composables/useBEM';
 
-const componentName = 'a-input'
-const BEM = useBEM(componentName)
-defineProps<{
-    required?: boolean,
-    placeholder?: string,
-    name: string,
-    modelValue: string
-}>()
-const emit = defineEmits(['update:modelValue'])
+const componentName = 'a-input';
+const BEM = useBEM(componentName);
 
-function onInput(event: Event) {
-    const target = event.target as HTMLInputElement
-    emit('update:modelValue', target.value)
+const props = defineProps<{
+    modelValue: string;
+    placeholder?: string;
+}>();
+const emit = defineEmits(['update:modelValue']);
+
+function onInput(e: Event) {
+    const val = (e.target as HTMLInputElement).value;
+    emit('update:modelValue', val);
 }
 </script>
 <template>
-    <input  type="text"
-            :placeholder="placeholder"
-            :required="required"
-            :class="componentName"
-            :name="name"
-            :value="modelValue"
-            @input="onInput">
+    <input :class="componentName" :value="props.modelValue" :placeholder="props.placeholder" @input="onInput" />
 </template>
-
 <style lang="scss">
 $componentName: 'a-input';
 
 .#{$componentName} {
+    font-size: var(--font-size-base);
+    border: var(--border-width) var(--border-style) var(--border-color);
+    border-radius: var(--radius-default);
+    padding: var(--spacing-sm) var(--spacing-md);
     width: 100%;
-    margin-top: 16px;
-    padding: 8px;
-    border: none;
-    border-bottom: 1px solid transparent;
-    border-radius: 4px;
-    background-color: var(--surface);
-    color: var(--text);
-
-    &:focus,
-    &:focus-visible {
-        outline: none;
-        border-bottom-color: var(--text);
-    }
+    background: var(--color-surface);
+    color: var(--color-text-secondary)
 }
 </style>
