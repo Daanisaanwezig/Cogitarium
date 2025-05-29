@@ -1,9 +1,12 @@
-type Idea = {
-  id: number
-  title: string
-  description: Text
-  tags: string[]
-  similarity?: string
+import type { BaseApiResponse } from "./api";
+
+export interface Idea {
+  id?: string;
+  title: string;
+  description: string;
+  tags: string[];
 }
 
-export type { Idea }
+export interface ApiResponse extends BaseApiResponse<Idea[]> {
+
+}

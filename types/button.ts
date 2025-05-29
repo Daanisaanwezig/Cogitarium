@@ -1,11 +1,3 @@
-enum buttonSize {
-    Large = 'large',
-    Small = 'small'
+export enum ButtonType {
+    Primary = 'primary'
 }
-enum buttonColor {
-    Primary = 'primary',
-    Secondary = 'secondary',
-    Accent = 'accent'
-}
-
-export { buttonSize, buttonColor }
