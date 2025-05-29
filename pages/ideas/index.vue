@@ -18,7 +18,7 @@ const searched = ref(false)
 const ideas = ref()
 const isAdvanced = ref(false)
 const searchInput = ref('')
-const temperature = ref(50)
+const temperature = ref(0)
 
 
 const componentName = 'p-ideas-index'
