@@ -1,66 +1,57 @@
 <script setup lang="ts">
-import { useBEM } from '~/composable/useBEM'
+import { useBEM } from '~/composables/useBEM';
+import type { ButtonType } from '~/types/Button';
 
-import { buttonSize, buttonColor } from '~/types/button';
+const componentName = 'a-button';
+const BEM = useBEM(componentName);
 
-const componentName = 'a-button'
-const BEM = useBEM(componentName)
+const props = defineProps<{
+    type: ButtonType;
+    disabled: boolean;
+}>();
 
-defineProps<{
-    size?: buttonSize,
-    color?: buttonColor
-}>()
+const emit = defineEmits(['click']);
+
+function handleClick(e: MouseEvent) {
+    if (!props.disabled) {
+        emit('click', e);
+    }
+}
 </script>
+
 <template>
-    <button :class="[componentName, size ? BEM.modifierClass(size.toString().toLowerCase()) : '', color ? BEM.modifierClass(color.toString().toLowerCase()) : '']"><slot/></button>
+    <button :class="[
+        componentName,
+        BEM.modifierClass(props.type),
+        props.disabled && BEM.modifierClass('disabled')
+    ]" :disabled="props.disabled" @click="handleClick">
+        <slot />
+    </button>
 </template>
 
 <style lang="scss">
 $componentName: 'a-button';
 
 .#{$componentName} {
-    display: block;
-    width: 100%;
-    margin-top: 24px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    font-size: 14px;
+    font-family: var(--font-family-sans);
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--radius-default);
+    border: var(--border-width) var(--border-style) var(--border-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: background-color 150ms ease;
 
-    transition: 0.2s ease;
-
-    &:hover {
-        cursor: pointer;
-    }
-
-    &--large {
-        padding: 6px;
-    }
-    &--small {
-        padding: 4px;
-    }
     &--primary {
-        background: var(--primary);
-        &:hover,
-        &:focus {
-            box-shadow: inset 0 -4px 0 0 var(--primary-light);
-            outline: none;
+        background-color: var(--color-primary);
+        color: var(--color-text-white);
+
+        &:hover:not(&--disabled) {
+            background-color: var(--color-primary-light);
         }
-    }
-    &--secondary {
-        background: var(--secondary);
-        &:hover,
-        &:focus {
-            box-shadow: inset 0 -4px 0 0 var(--secondary-light);
-            outline: none;
-        }
-    }
-    &--accent {
-        background: var(--accent);
     }
 
-    &:disabled {
-        opacity: 0.6;
+    &--disabled {
+        opacity: 0.5;
         cursor: not-allowed;
     }
 }
