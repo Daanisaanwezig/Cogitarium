@@ -1,14 +1,40 @@
 :root {
-    --primary: #FF6F61;
-    --primary-light: #ff9d94;
-    --secondary: #6B5B95;
-    --secondary-light: #b5adcc;
-    --accent: #00B295;
-    --text: #1C1C1C;
-    --text-light: #4A4A4A;
-    --text-disabled: #A0A0A0;
-    --background: #F7F7F7;
-    --surface: #FFFFFF;
+    /* Colors */
+    --color-primary: #0A80ED;
+    --color-primary-light: #66bfff;
+    --color-secondary: #ffd60a;
+    --color-background: #F7FAFC;
+    --color-surface: #E8EDF5;
+    --color-text-primary: #0D141C;
+    --color-text-secondary: #4A739C;
+    --color-text-white: #F7FAFC;
+    --color-border: #E8EDF5;
+    --color-error: #ff3b30;
+    --color-success: #34c759;
+
+    /* Typography */
+    --font-family-default: 'Roboto', sans-serif;
+    --font-size-base: 1rem;         /* 16px */
+    --font-size-lg: 1.125rem;       /* 18px */
+    --font-size-xl: 1.25rem;        /* 20px */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;      /* e.g. subheadings */
+    --font-weight-bold: 700;        /* e.g. titles */
+
+    /* Spacing scale */
+    --spacing-xs: 0.25rem;          /* 4px */
+    --spacing-sm: 0.5rem;           /* 8px */
+    --spacing-md: 1rem;             /* 16px */
+    --spacing-lg: 1.5rem;           /* 24px */
+    --spacing-xl: 2rem;             /* 32px */
+
+    /* Border radius */
+    --radius-default: 0.5rem;       /* 8px */
+
+    /* Borders */
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: var(--color-border);
 }
 
 * {
@@ -16,11 +42,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-body {
-    background-color: var(--background);
-    font-family: 'Roboto';
-}
 
-.container {
-    margin: 0 16px;
+body {
+    background-color: var(--color-background);
+    font-family: var(--font-family-default);
+    font-size: 16px;
 }
