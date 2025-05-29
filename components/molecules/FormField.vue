@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBEM } from '~/composable/useBEM'
+import { useBEM } from '~/composables/useBEM'
 
 const componentName = 'm-form-field'
 const BEM = useBEM(componentName)

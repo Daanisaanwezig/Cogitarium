@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Composables
-import { useBEM } from '~/composable/useBEM'
+import { useBEM } from '~/composables/useBEM'
 
 // Types
 import type { Idea } from '~/types/idea'
