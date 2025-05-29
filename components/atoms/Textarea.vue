@@ -1,49 +1,36 @@
 <script setup lang="ts">
-import { useBEM } from '~/composable/useBEM'
+import { useBEM } from '~/composables/useBEM';
 
-const componentName = 'a-textarea'
-const BEM = useBEM(componentName)
-defineProps<{
-    required?: boolean,
-    placeholder?: string,
-    rows?: number,
-    name: string,
-    modelValue: string
-}>()
-const emit = defineEmits(['update:modelValue'])
+const componentName = 'a-textarea';
+const BEM = useBEM(componentName);
 
-function onInput(event: Event) {
-    const target = event.target as HTMLInputElement
-    emit('update:modelValue', target.value)
+const props = defineProps<{
+    modelValue: string;
+    placeholder?: string;
+    rows?: number;
+}>();
+const emit = defineEmits(['update:modelValue']);
+
+function onInput(e: Event) {
+    const val = (e.target as HTMLTextAreaElement).value;
+    emit('update:modelValue', val);
 }
 </script>
 <template>
-    <textarea   :placeholder="placeholder"
-                :required="required"
-                :class="componentName"
-                :rows="rows"
-                :name="name"
-                :value="modelValue"
-                @input="onInput"></textarea>
+    <textarea :class="componentName" :value="props.modelValue" :placeholder="props.placeholder" :rows="props.rows || 3" @input="onInput" />
 </template>
-
 <style lang="scss">
 $componentName: 'a-textarea';
 
 .#{$componentName} {
-    display: block;
+    font-family: var(--font-family-sans);
+    font-size: var(--font-size-base);
+    border: var(--border-width) var(--border-style) var(--border-color);
+    border-radius: var(--radius-default);
+    padding: var(--spacing-sm) var(--spacing-md);
     width: 100%;
-    margin-top: 16px;
-    padding: 8px;
-    border: none;
-    border-bottom: 1px solid transparent;
-    border-radius: 4px;
-    background-color: var(--surface);
-    color: var(--text);
-    &:focus,
-    &:focus-visible {
-        outline: none;
-        border-bottom-color: var(--text);
-    }
+    resize: vertical;
+    background: var(--color-surface);
+    color: var(--color-text-secondary)
 }
 </style>
