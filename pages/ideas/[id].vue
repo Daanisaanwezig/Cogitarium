@@ -1,41 +1,58 @@
 <script setup lang="ts">
-import { useBEM } from '~/composable/useBEM'
+import { useBEM } from '~/composables/useBEM';
 
-import Header from '~/components/organisms/Header.vue'
-import Button from '~/components/atoms/Button.vue'
+import Header from '~/components/organisms/Header.vue';
+import Button from '~/components/atoms/Button.vue';
+import TabBar from '~/components/organisms/TabBar.vue';
 
-import { buttonSize, buttonColor } from '~/types/button'
+import { UseIdeas } from '~/composables/useIdeas';
+import { ButtonType } from '~/types/Button';
+import type { Idea } from '~/types/idea';
+const useIdea = UseIdeas();
+const router = useRouter();
+const route = useRoute();
 
-import { getIdea, removeIdea } from '~/services/api'
+const ideaId = parseInt(route.params.id.toString());
+useIdea.fetchIdea(parseInt(ideaId.toString()));
+const idea: Idea = useIdea.ideas;
+const loading = ref(useIdea.loading);
 
-const componentName = 'p-idea-detail'
-const BEM = useBEM(componentName)
+const componentName = 'p-idea-detail';
+const BEM = useBEM(componentName);
 
-const route = useRoute()
-const ideaId = route.params.id
-let idea = await getIdea(parseInt(ideaId as string))
+function stripIdeaDescription(description: string): string {
+    return description.replaceAll('\n', '<br>');
+}
 
 function remove() {
-    removeIdea(idea)
+    useIdea.removeIdea(ideaId);
+    router.back();
 }
 </script>
 <template>
-    <!-- Add idea detail page -->
-    <div class="container">
-        <Header>Idee</Header>
-        <h2>{{ idea.title }}</h2>
-        <p v-html="idea.description.replaceAll('\n', '<br>')"></p>
-
-        <Button :size="buttonSize.Small" :color="buttonColor.Primary" :class="BEM.childClass('remove-button')" @click="remove()">Verwijderen</Button>
+    <div :class="componentName">
+        <Header>
+            <h2>Idea</h2>
+        </Header>
+        <template v-if="!loading">
+            <h2 :class="BEM.childClass('idea-title')">{{ idea.title }}</h2>
+            <p v-html="stripIdeaDescription(idea.description)"></p>
+            <Button :type="ButtonType.Primary" :disabled="false" :class="BEM.childClass('remove-button')" @click="remove()">Verwijderen</Button>
+        </template>
+        <TabBar />
     </div>
 </template>
 <style lang="scss">
 $componentName: 'p-idea-detail';
 
 .#{$componentName} {
+    margin: 0 var(--spacing-md);
+    &__idea-title {
+        margin-bottom: var(--spacing-sm);
+    }
     &__remove-button {
         width: fit-content;
-        margin-left: auto;
+        margin-top: var(--spacing-md);
     }
 }
 </style>

@@ -17,7 +17,7 @@ function onInput(e: Event) {
 }
 </script>
 <template>
-    <textarea :class="componentName" :value="props.modelValue" :placeholder="props.placeholder" :rows="props.rows || 3" @input="onInput" />
+    <textarea :class="componentName" :value="props.modelValue" :placeholder="props.placeholder" :rows="props.rows || 5" @input="onInput" />
 </template>
 <style lang="scss">
 $componentName: 'a-textarea';

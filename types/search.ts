@@ -3,8 +3,9 @@ import type { Idea } from "./idea";
 
 export interface SearchOptions {
   query: string;
-  context?: string;
+  context: string;
   diversity: number;
+  mode: TabType;
 }
 
 export type TabType = 'simple' | 'advanced';

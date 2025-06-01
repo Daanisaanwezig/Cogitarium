@@ -1,31 +1,42 @@
 <script setup lang="ts">
-import { buttonSize, buttonColor } from '~/types/button';
+import IdeaItem from '~/components/molecules/IdeaItem.vue'
+import { UseIdeas } from '~/composables/useIdeas'
+import { useBEM } from '#imports';
+import TabBar from '~/components/organisms/TabBar.vue';
 
-import Input from '~/components/atoms/Input.vue'
-import Textarea from '~/components/atoms/Textarea.vue';
-import Button from '~/components/atoms/Button.vue';
+const componentName = 'p-index';
+const BEM = useBEM(componentName);
 
-async function submitForm() {
-    const form = document.getElementById('newEntry')
-    if (!form) return
-    if (!(form instanceof HTMLFormElement)) return
+const useIdeas = UseIdeas()
 
-    const formData = new FormData(form)
-    const response = await fetch('', {
-        method: 'post',
-        body: formData
-    })
-    if (! response.ok) return
-    const result = response.json()
-
-    // TODO:
-    // Move this page to its own "add new" page
-    // Move API logic to composable
-    // Create API
-}
+useIdeas.fetchIdeas()
+const ideas = useIdeas.ideas
 </script>
 <template>
-    <div class="container">
-        <h4>Home</h4>
+    <div :class="componentName">
+        <h2 :class="BEM.childClass('page-title')">Ideas</h2>
+        <template v-for="idea in ideas">
+            <IdeaItem :idea="idea">
+                <template #title>{{ idea.title }}</template>
+                <template #description>{{ idea.description }}</template>
+            </IdeaItem>
+        </template>
+        <TabBar />
     </div>
 </template>
+<style lang="scss">
+$componentName: 'p-index';
+
+.#{$componentName} {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    margin: 0 var(--spacing-md);
+    margin-bottom: 12rem;
+
+    &__page-title {
+        margin-top: var(--spacing-md);
+        text-align: center;
+    }
+}
+</style>

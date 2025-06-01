@@ -5,6 +5,7 @@ export interface Idea {
   title: string;
   description: string;
   tags: string[];
+  similarity?: string;
 }
 
 export interface ApiResponse extends BaseApiResponse<Idea[]> {
