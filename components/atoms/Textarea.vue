@@ -15,9 +15,16 @@ function onInput(e: Event) {
     const val = (e.target as HTMLTextAreaElement).value;
     emit('update:modelValue', val);
 }
+
+const textareaRef = ref<HTMLTextAreaElement | null>(null);
+
+defineExpose({
+  focus: () => textareaRef.value?.focus(),
+  el: textareaRef
+});
 </script>
 <template>
-    <textarea :class="componentName" :value="props.modelValue" :placeholder="props.placeholder" :rows="props.rows || 5" @input="onInput" />
+    <textarea ref="textareaRef" :class="componentName" :value="props.modelValue" :placeholder="props.placeholder" :rows="props.rows || 5" @input="onInput" />
 </template>
 <style lang="scss">
 $componentName: 'a-textarea';

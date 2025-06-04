@@ -14,9 +14,16 @@ function onInput(e: Event) {
     const val = (e.target as HTMLInputElement).value;
     emit('update:modelValue', val);
 }
+
+const inputRef = ref<HTMLInputElement | null>(null)
+
+defineExpose({
+  focus: () => inputRef.value?.focus(),
+  el: inputRef
+});
 </script>
 <template>
-    <input :class="componentName" :value="props.modelValue" :placeholder="props.placeholder" @input="onInput" />
+    <input ref="inputRef" :class="componentName" :value="props.modelValue" :placeholder="props.placeholder" @input="onInput" />
 </template>
 <style lang="scss">
 $componentName: 'a-input';
