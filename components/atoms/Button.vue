@@ -40,6 +40,7 @@ $componentName: 'a-button';
     padding: var(--spacing-sm) var(--spacing-md);
     cursor: pointer;
     transition: background-color 150ms ease;
+    width: 100%;
 
     &--primary {
         background-color: var(--color-primary);

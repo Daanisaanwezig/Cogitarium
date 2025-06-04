@@ -7,26 +7,39 @@ export function UseSearch() {
     const results = ref<Idea[]>([]);
     const loading = ref<Boolean>(false);
     const searched = ref<Boolean>(false);
+    const summarizing = ref<boolean>(false);
+    const summary = ref<String>('');
 
     async function search() {
         loading.value = true;
 
-        let res;
+        let result;
         if (options.value.mode == 'simple') {
-            res = await SearchService.performSearch(options.value);
+            result = await SearchService.performSearch(options.value);
         } else {
-            res = await SearchService.performAdvancedSearch(options.value);
+            result = await SearchService.performAdvancedSearch(options.value);
         }
 
-        if (! res) {
+        if (! result) {
             searched.value = true;
             loading.value = true;
             return // TODO: Add error handling
         }
-        results.value = res.data;
+        results.value = result.data;
+        console.log(results.value);
+        
         
         searched.value = true;
         loading.value = false;
     }
-    return { options, results, loading, searched, search };
+
+    async function summarize() {
+        summarizing.value = true;
+        const result = await SearchService.summarizeIdeas(results.value);
+        console.log(result);
+        summary.value = result.data;
+        summarizing.value = false;
+    }
+
+    return { options, results, loading, searched, summary, summarizing, search, summarize };
 }

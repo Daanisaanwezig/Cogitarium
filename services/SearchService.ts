@@ -1,5 +1,5 @@
-import type { ApiResponse } from '~/types/search';
-import type { SearchOptions } from '~/types/search';
+import type { ApiResponse, SummaryApiResponse, SearchOptions } from '~/types/search';
+import type { Idea } from '~/types/idea';
 import { ApiService } from './ApiService';
 
 export class SearchService {
@@ -9,7 +9,7 @@ export class SearchService {
             const response = await ApiService.post('generate/search', { query: query }) as ApiResponse;
 
             return resolve(response);
-        })
+        });
     }
     static async performAdvancedSearch(options: SearchOptions): Promise<ApiResponse> {
         return new Promise(async (resolve, reject) => {
@@ -30,6 +30,17 @@ export class SearchService {
             }).sort((a, b) => b.score - a.score);
 
             return resolve(response);
-        })
+        });
+    }
+    static async summarizeIdeas(ideas: Idea[]): Promise<SummaryApiResponse> {
+        return new Promise(async (resolve, reject) => {
+            let query = '';
+            ideas.forEach((idea, index) => {
+                query += `${index}. ${idea.title.trim()}\n${idea.description.trim()}\n\n`
+            })
+            const response = await ApiService.post('generate/summary', { query: query }) as SummaryApiResponse;
+
+            return resolve(response);
+        });
     }
 }

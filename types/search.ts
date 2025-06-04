@@ -13,3 +13,6 @@ export type TabType = 'simple' | 'advanced';
 export interface ApiResponse extends BaseApiResponse<Idea[]> {
 
 }
+export interface SummaryApiResponse extends BaseApiResponse<string> {
+  
+}
