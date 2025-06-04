@@ -13,7 +13,8 @@ function goBack() {
 <template>
   <div :class="componentName">
     <button :class="BEM.childClass('back-button')" @click="goBack">
-      <Icon name="mdi-arrow-left"></Icon>
+      <!-- <Icon name="mdi-arrow-left"></Icon> -->
+      <Icon name="mdi:arrow-left" :class="BEM.childClass('icon')" />
     </button>
     <div :class="BEM.childClass('title')">
       <slot />
