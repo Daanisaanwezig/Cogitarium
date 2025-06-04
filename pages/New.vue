@@ -2,6 +2,7 @@
 import { useBEM } from '~/composables/useBEM';
 import NewIdeaForm from '~/components/organisms/NewIdeaForm.vue';
 import type { Idea } from '~/types/idea';
+import Header from '~/components/organisms/Header.vue';
 import { IdeaService } from '~/services/IdeaService';
 import TabBar from '~/components/organisms/TabBar.vue';
 
@@ -20,7 +21,7 @@ function saveIdea(idea: Idea) {
 </script>
 <template>
     <div :class="componentName">
-        <h2 :class="BEM.childClass('page-title')">New Idea</h2>
+        <Header>New Idea</Header>
         <NewIdeaForm @save="saveIdea($event)"/>
     </div>
     <TabBar />
@@ -30,10 +31,5 @@ $componentName: 'p-new';
 
 .#{$componentName} {
     margin: var(--spacing-md);
-    
-    &__page-title {
-        margin-top: var(--spacing-md);
-        text-align: center;
-    }
 }
 </style>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useBEM } from '~/composables/useBEM';
 import { UseSearch } from '~/composables/useSearch';
+import Button from '~/components/atoms/Button.vue';
+import IdeaItem from '~/components/molecules/IdeaItem.vue';
 import SearchForm from '~/components/organisms/SearchForm.vue';
 import TabBar from '~/components/organisms/TabBar.vue';
-import IdeaItem from '~/components/molecules/IdeaItem.vue';
-import Button from '~/components/atoms/Button.vue';
+import Header from '~/components/organisms/Header.vue';
 import { ButtonType } from '~/types/Button';
 import MarkdownIt from 'markdown-it';
 
@@ -17,7 +18,7 @@ const BEM = useBEM(componentName);
 </script>
 <template>
     <div :class="componentName">
-        <h2 :class="BEM.childClass('page-title')">Search</h2>
+        <Header>New Idea</Header>
         <SearchForm :useSearch="useSearch" />
         <template v-if="!searched && !loading">
             <p :class="BEM.childClass('not-searched')">Search something<br>and the results will end up here</p>
@@ -47,10 +48,6 @@ $componentName: 'p-search';
 
 .#{$componentName} {
     margin: var(--spacing-md);
-    
-    &__page-title {
-        text-align: center;
-    }
     &__not-searched {
         margin: 0 var(--spacing-xl);
         margin-top: var(--spacing-md);
