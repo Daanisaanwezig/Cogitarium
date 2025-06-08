@@ -27,8 +27,6 @@ function onSend() {
 }
 
 watch(currentInput, async(value, oldValue) => {
-  console.log(inputComponent);
-  
   if (value.length > 20) {
     useTextarea.value = true;
     await nextTick();
