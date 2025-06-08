@@ -6,7 +6,9 @@ export class SearchService {
     static async performSearch(options: SearchOptions): Promise<ApiResponse> {
         return new Promise(async (resolve, reject) => {
             const query = options.query.trim();
-            const response = await ApiService.post('generate/search', { query: query }) as ApiResponse;
+            console.log(options.query);
+            
+            const response = await ApiService.post('ideas/search', { query: query }) as ApiResponse;
 
             return resolve(response);
         });
@@ -17,7 +19,7 @@ export class SearchService {
             if (options.context) {
                 query += ` ${options.context.trim()}`;
             }
-            const response = await ApiService.post('generate/advancedSearch', { query: query }) as ApiResponse;
+            const response = await ApiService.post('ideas/advanced-search', { query: query }) as ApiResponse;
 
             const diversity = options.diversity;
 
@@ -38,7 +40,7 @@ export class SearchService {
             ideas.forEach((idea, index) => {
                 query += `${index}. ${idea.title.trim()}\n${idea.description.trim()}\n\n`
             })
-            const response = await ApiService.post('generate/summary', { query: query }) as SummaryApiResponse;
+            const response = await ApiService.post('summarize', { query: query }) as SummaryApiResponse;
 
             return resolve(response);
         });
