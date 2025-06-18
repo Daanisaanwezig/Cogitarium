@@ -1,75 +1,62 @@
-# Nuxt Minimal Starter
+# Cognitarium Frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Description
 
-## Setup
+This is the Nuxt 3 frontend for the [Cognitarium project](https://github.com/Daanisaanwezig/Cogitarium). It provides a user interface for saving, searching, and chatting with ideas using AI. The interface is built using SCSS and follows the BEM (Block Element Modifier) methodology for styling.
 
-Make sure to install dependencies:
+Main features:
 
-```bash
-# npm
-npm install
+* Add and view new ideas
+* Search existing ideas using vector search
+* Chat with your ideas (under development)
+* Save chat messages as new ideas (under development)
 
-# pnpm
-pnpm install
+## Getting Started
 
-# yarn
-yarn install
+### Prerequisites
 
-# bun
-bun install
-```
+* [Node.js](https://nodejs.org/) (v18+)
+* A running instance of the [Cognitarium API](https://github.com/Daanisaanwezig/Cogitarium-api)
 
-## Development Server
+### Installation
 
-Start the development server on `http://localhost:3000`:
+1. Clone the repository:
 
-```bash
-# npm
-npm run dev
+   ```bash
+   git clone https://github.com/Daanisaanwezig/Cogitarium
+   cd Cognitarium
+   ```
 
-# pnpm
-pnpm dev
+2. Install dependencies:
 
-# yarn
-yarn dev
+   ```bash
+   npm install
+   ```
 
-# bun
-bun run dev
-```
+3. Start the development server:
 
-## Production
+   ```bash
+   npm run dev
+   ```
 
-Build the application for production:
+> **Note:** The frontend expects the API to be running locally. The API URL is configured manually in `services/ApiService.ts`.
 
-```bash
-# npm
-npm run build
+## Development Notes
 
-# pnpm
-pnpm build
+* Built with [Nuxt 3](https://nuxt.com/) and SCSS.
 
-# yarn
-yarn build
+* Uses BEM for CSS class naming.
 
-# bun
-bun run build
-```
+* Follows the [Atomic Design](https://bradfrost.com/blog/post/atomic-web-design/) methodology for organizing UI components (`atoms`, `molecules`, `organisms`).
 
-Locally preview production build:
+* This project is a work in progress. Features like chat and saving ideas from chat are still under development.
 
-```bash
-# npm
-npm run preview
+## Planned Features
 
-# pnpm
-pnpm preview
+Planned features can be found under issues.
 
-# yarn
-yarn preview
+---
 
-# bun
-bun run preview
-```
+## Contributing
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Contributions are welcome! Please open issues or pull requests to suggest improvements or fixes.
